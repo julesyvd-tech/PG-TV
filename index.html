@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>🎨 PG R3W0RK</title>
 
-<!-- Favicon: inline “P” SVG -->
+<!-- Favicon -->
 <link rel="icon" type="image/svg+xml"
 href='data:image/svg+xml;utf8,
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 80">
@@ -46,10 +46,29 @@ svg.icon-svg{width:100%;height:100%;position:relative;z-index:6;overflow:visible
 @keyframes scanlineShift{0%{background-position:0 0}100%{background-position:0 8px}}
 #flickerBars{position:fixed;inset:0;z-index:43;pointer-events:none;background:linear-gradient(180deg,rgba(255,255,255,0.14),transparent 50%,rgba(255,255,255,0.14));mix-blend-mode:overlay;opacity:.06;animation:flicker 2.2s infinite}
 @keyframes flicker{0%,100%{opacity:.04}50%{opacity:.16}}
-.tv-wrap{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;z-index:80;width:60%;max-width:880px;height:220px;background:#000;border-radius:12px;box-shadow:0 8px 40px rgba(0,0,0,0.8);overflow:hidden;border:2px solid rgba(255,255,255,0.04);transition:box-shadow .3s ease}
-.tv-wrap.glow{box-shadow:0 0 25px rgba(255,255,255,0.4),0 0 60px rgba(0,255,234,0.25)}
-.tv-screen{width:100%;height:100%;display:block;object-fit:cover;background:#000}
+
+/* ==== TOP HEADER TV ==== */
+.tv-wrap{
+  position:fixed;
+  top:0;
+  left:50%;
+  transform:translateX(-50%);
+  z-index:80;
+  width:100%;
+  max-width:100%;
+  height:160px;
+  background:#000;
+  border-bottom:2px solid rgba(255,255,255,0.08);
+  box-shadow:0 4px 25px rgba(0,0,0,0.6);
+  overflow:hidden;
+  transition:box-shadow .3s ease;
+}
+.tv-wrap.glow{
+  box-shadow:0 0 25px rgba(255,255,255,0.4),0 0 60px rgba(0,255,234,0.25);
+}
+.tv-screen{width:100%;height:100%;object-fit:cover;background:#000}
 .tv-overlay{position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(to bottom,rgba(255,255,255,0.02)0,rgba(255,255,255,0.02)1px,transparent 2px,transparent 4px);mix-blend-mode:overlay}
+
 .cursor{position:fixed;left:0;top:0;width:160px;height:160px;border-radius:50%;pointer-events:none;z-index:100;mix-blend-mode:screen;transform:translate(-50%,-50%) scale(.8);transition:transform .05s linear;filter:blur(6px)}
 .cursor .ring{position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 35% 30%,rgba(0,255,234,0.45),transparent 20%),radial-gradient(circle at 70% 70%,rgba(255,45,149,0.25),transparent 18%);animation:ringJitter .9s infinite}
 .cursor .noise{position:absolute;inset:12px;border-radius:50%;background-image:radial-gradient(circle,rgba(255,255,255,0.06),transparent 2px);mix-blend-mode:overlay;opacity:.9;animation:noiseFloater .06s steps(2) infinite}
@@ -66,6 +85,15 @@ svg.icon-svg{width:100%;height:100%;position:relative;z-index:6;overflow:visible
 <div id="staticNoise"></div>
 <div id="scanlines"></div>
 <div id="flickerBars"></div>
+
+<!-- TV HEADER -->
+<div class="tv-wrap" id="tvWrap" aria-label="TV">
+  <video id="tv" class="tv-screen" playsinline muted loop>
+    <source src="./IMG_3838.MOV" type="video/mp4">
+    Your browser does not support the TV video.
+  </video>
+  <div class="tv-overlay"></div>
+</div>
 
 <div class="wrap">
   <div class="icon-container">
@@ -95,15 +123,6 @@ svg.icon-svg{width:100%;height:100%;position:relative;z-index:6;overflow:visible
 </div>
 <!-- CHUNK 1 END -->
 <!-- CHUNK 2 START -->
-<!-- TV element (bottom center) -->
-<div class="tv-wrap" id="tvWrap" aria-label="TV">
-  <video id="tv" class="tv-screen" playsinline muted loop>
-    <source src="./IMG_3838.MOV" type="video/mp4">
-    Your browser does not support the TV video.
-  </video>
-  <div class="tv-overlay"></div>
-</div>
-
 <!-- Hidden audio player -->
 <audio id="player" preload="auto"></audio>
 
@@ -137,14 +156,11 @@ function setTrack(index) {
   currentTrack = (index + audioFiles.length) % audioFiles.length;
   player.src = audioFiles[currentTrack];
   player.load();
-  // try to play immediately
   player.play().then(()=> {
-    player.volume = 1.0; // full volume as requested
-    // remove any gesture listeners if we had them
+    player.volume = 1.0; // Full volume
     window.removeEventListener('touchstart', startOnGesture);
     window.removeEventListener('click', startOnGesture);
   }).catch((err) => {
-    // autoplay blocked: attach one-time gesture to start
     console.warn('Autoplay blocked — will start on first tap/click.', err);
     window.addEventListener('touchstart', startOnGesture, {once:true});
     window.addEventListener('click', startOnGesture, {once:true});
@@ -167,34 +183,26 @@ function tryAutoplay() {
   if (autoplayAttempted) return;
   autoplayAttempted = true;
   setTrack(0); // start with BM AM & PM
-  // also start TV (muted) — browsers allow muted autoplay more readily
   setChannel(0);
 }
 
 /* ====== TV channel handling ====== */
 function setChannel(index) {
   currentChannel = (index + videoFiles.length) % videoFiles.length;
-  // replace the video src and play muted loop
   tv.pause();
   tv.src = videoFiles[currentChannel];
   tv.load();
-  // play; many browsers allow muted autoplay
-  tv.play().catch(e => {
-    // If blocked, we'll rely on the same gesture to start both audio and video
-    console.warn('TV autoplay blocked or prevented', e);
-  });
+  tv.play().catch(e => console.warn('TV autoplay blocked', e));
 }
 
 /* Channel switching (with glow pulse) */
 tvWrap.addEventListener('click', ()=> {
-  // pulse glow
   tvWrap.classList.add('glow');
   setTimeout(()=> tvWrap.classList.remove('glow'), 420);
-
   setChannel(currentChannel + 1);
 });
 
-/* Accessibility: allow keyboard channel change (Enter/Space) when focused */
+/* Accessibility: keyboard channel change */
 tvWrap.tabIndex = 0;
 tvWrap.addEventListener('keydown', (e)=>{
   if (e.key === 'Enter' || e.key === ' ') {
@@ -203,22 +211,18 @@ tvWrap.addEventListener('keydown', (e)=>{
   }
 });
 
-/* Fallback: attempt autoplay after a short delay (helps some mobile browsers) */
-window.addEventListener('load', ()=> {
-  // small timeout to let the page layout settle
-  setTimeout(tryAutoplay, 200);
-});
+/* Attempt autoplay after load */
+window.addEventListener('load', ()=> setTimeout(tryAutoplay, 200));
 
-/* Visibility change: resume playback if user returns to tab */
+/* Resume playback when tab visible */
 document.addEventListener('visibilitychange', ()=> {
   if (!document.hidden) {
-    // attempt to keep things live
     player.play().catch(()=>{});
     tv.play().catch(()=>{});
   }
 });
 
-/* Prevent accidental context menu on TV long-press mobile */
+/* Prevent context menu on long press (mobile) */
 tvWrap.addEventListener('contextmenu', e => e.preventDefault());
 </script>
 <!-- CHUNK 2 END -->
@@ -255,7 +259,7 @@ document.addEventListener("mousemove", e => {
 document.addEventListener("mousedown", () => cursor.style.transform = "translate(-50%,-50%) scale(1.2)");
 document.addEventListener("mouseup", () => cursor.style.transform = "translate(-50%,-50%) scale(0.8)");
 
-// --- Tiny flicker overlay on click for a CRT flash feel ---
+// --- CRT-style flicker overlay on click (P/G) ---
 function flashOverlay(colorClass){
   const flash = document.createElement("div");
   flash.className = `flash-overlay ${colorClass}`;
@@ -267,7 +271,6 @@ function flashOverlay(colorClass){
 
 document.getElementById("paintBtn").addEventListener("click", ()=>flashOverlay("flash-blue"));
 document.getElementById("glueBtn").addEventListener("click", ()=>flashOverlay("flash-red"));
-
 </script>
 
 <style>
@@ -282,11 +285,8 @@ document.getElementById("glueBtn").addEventListener("click", ()=>flashOverlay("f
   background:linear-gradient(180deg,rgba(255,40,40,0.25),rgba(255,10,10,0.15));
 }
 </style>
-
-</body>
-</html>
 <!-- CHUNK 3 END -->
-<!-- CHUNK 4 START (Enhanced with flicker + scanlines) -->
+<!-- CHUNK 4 START (bootinup-bootsup intro) -->
 <style>
 /* ===== Boot Screen Styling ===== */
 #bootScreen {
@@ -360,3 +360,5 @@ window.addEventListener("load", () => {
 });
 </script>
 <!-- CHUNK 4 END -->
+</body>
+</html>
