@@ -6,12 +6,12 @@
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>🎨 PG R3W0RK</title>
 
-<!-- Favicon -->
+<!-- Favicon: P SVG -->
 <link rel="icon" type="image/svg+xml"
 href='data:image/svg+xml;utf8,
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 80">
 <path fill="none" stroke="white" stroke-width="2.2" d="M12 20 q20-20 40 0 v40 h-40z"/>
-<text x="32" y="50" text-anchor="middle" font-family="Courier, monospace" font-size="18" fill="white" font-weight="700">P</text>
+<text x="32" y="50" text-anchor="middle" font-family="Courier,monospace" font-size="18" fill="white" font-weight="700">P</text>
 </svg>'>
 
 <style>
@@ -23,42 +23,129 @@ href='data:image/svg+xml;utf8,
   --accent-magenta:rgba(255,45,149,0.08);
   --white:#fff;
 }
+
 html,body{
-  height:100%;margin:0;
+  height:100%;
+  margin:0;
   background:linear-gradient(180deg,var(--bg1)0%,var(--bg2)35%,var(--bg3)100%);
   overflow:hidden;
   font-family:Courier,monospace;
   color:var(--white);
 }
-.wrap{position:relative;z-index:2;min-height:100vh;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:28px;padding:40px}
-.icon-container{display:flex;gap:120px;align-items:center;justify-content:center;z-index:6}
-button.icon-btn{width:140px;height:180px;display:block;position:relative;cursor:pointer;background:transparent;border:none;padding:0}
-svg.icon-svg{width:100%;height:100%;position:relative;z-index:6;overflow:visible}
-.shape-path{fill:none;stroke:#fff;stroke-width:2.2;stroke-linejoin:round;stroke-linecap:round}
-.shape-text{fill:#fff;font-weight:700;font-family:Courier,monospace;font-size:18px;dominant-baseline:middle;text-anchor:middle}
-.outline-left{stroke:rgba(0,0,255,0.9);stroke-width:2.2;filter:blur(.6px);mix-blend-mode:screen;animation:osc1 2.6s infinite ease-in-out}
-.outline-right{stroke:rgba(255,59,59,0.9);stroke-width:2.2;filter:blur(.6px);mix-blend-mode:screen;animation:osc2 1.8s infinite ease-in-out}
-@keyframes osc1{0%{transform:translateX(-3px)translateY(-1px)}50%{transform:translateX(2px)translateY(1px)}100%{transform:translateX(-3px)translateY(-1px)}}
-@keyframes osc2{0%{transform:translateX(3px)translateY(2px)}50%{transform:translateX(-2px)translateY(-1px)}100%{transform:translateX(3px)translateY(2px)}}
-#staticNoise{position:fixed;inset:0;z-index:40;pointer-events:none;mix-blend-mode:screen;opacity:.16;background-image:url("https://media.giphy.com/media/oEI9uBYSzLpBK/giphy.gif");background-size:cover;animation:moveStatic .18s steps(2) infinite}
+
+/* === Layout === */
+.wrap{
+  position:relative;
+  z-index:2;
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  gap:28px;
+  padding:40px;
+}
+
+/* === P + G ICONS === */
+.icon-container{
+  display:flex;
+  gap:120px;
+  align-items:center;
+  justify-content:center;
+  z-index:6;
+}
+button.icon-btn{
+  width:140px;
+  height:180px;
+  display:block;
+  position:relative;
+  cursor:pointer;
+  background:transparent;
+  border:none;
+  padding:0;
+}
+svg.icon-svg{
+  width:100%;
+  height:100%;
+  position:relative;
+  z-index:6;
+  overflow:visible;
+}
+.shape-path{
+  fill:none;
+  stroke:#fff;
+  stroke-width:2.2;
+  stroke-linejoin:round;
+  stroke-linecap:round;
+}
+.shape-text{
+  fill:#fff;
+  font-weight:700;
+  font-family:Courier,monospace;
+  font-size:18px;
+  dominant-baseline:middle;
+  text-anchor:middle;
+}
+.outline-left{
+  stroke:rgba(0,0,255,0.9);
+  stroke-width:2.2;
+  filter:blur(.6px);
+  mix-blend-mode:screen;
+  animation:osc1 2.6s infinite ease-in-out;
+}
+.outline-right{
+  stroke:rgba(255,59,59,0.9);
+  stroke-width:2.2;
+  filter:blur(.6px);
+  mix-blend-mode:screen;
+  animation:osc2 1.8s infinite ease-in-out;
+}
+@keyframes osc1{
+  0%{transform:translateX(-3px)translateY(-1px)}
+  50%{transform:translateX(2px)translateY(1px)}
+  100%{transform:translateX(-3px)translateY(-1px)}
+}
+@keyframes osc2{
+  0%{transform:translateX(3px)translateY(2px)}
+  50%{transform:translateX(-2px)translateY(-1px)}
+  100%{transform:translateX(3px)translateY(2px)}
+}
+
+/* === VHS FX === */
+#staticNoise{
+  position:fixed;inset:0;z-index:40;pointer-events:none;
+  mix-blend-mode:screen;opacity:.16;
+  background-image:url("https://media.giphy.com/media/oEI9uBYSzLpBK/giphy.gif");
+  background-size:cover;
+  animation:moveStatic .18s steps(2) infinite;
+}
 @keyframes moveStatic{from{background-position:0 0}to{background-position:100% 100%}}
-#scanlines{position:fixed;inset:0;z-index:42;pointer-events:none;background:repeating-linear-gradient(to bottom,rgba(255,255,255,0.03)0,rgba(255,255,255,0.03)1px,transparent 2px,transparent 4px);opacity:.22;mix-blend-mode:overlay;animation:scanlineShift 5.8s linear infinite}
+
+#scanlines{
+  position:fixed;inset:0;z-index:42;pointer-events:none;
+  background:repeating-linear-gradient(to bottom,rgba(255,255,255,0.03)0,rgba(255,255,255,0.03)1px,transparent 2px,transparent 4px);
+  opacity:.22;mix-blend-mode:overlay;animation:scanlineShift 5.8s linear infinite;
+}
 @keyframes scanlineShift{0%{background-position:0 0}100%{background-position:0 8px}}
-#flickerBars{position:fixed;inset:0;z-index:43;pointer-events:none;background:linear-gradient(180deg,rgba(255,255,255,0.14),transparent 50%,rgba(255,255,255,0.14));mix-blend-mode:overlay;opacity:.06;animation:flicker 2.2s infinite}
+
+#flickerBars{
+  position:fixed;inset:0;z-index:43;pointer-events:none;
+  background:linear-gradient(180deg,rgba(255,255,255,0.14),transparent 50%,rgba(255,255,255,0.14));
+  mix-blend-mode:overlay;opacity:.06;animation:flicker 2.2s infinite;
+}
 @keyframes flicker{0%,100%{opacity:.04}50%{opacity:.16}}
 
-/* ==== TOP HEADER TV ==== */
+/* === FLOATING TV === */
 .tv-wrap{
   position:fixed;
-  top:0;
   left:50%;
-  transform:translateX(-50%);
+  top:50%;
+  transform:translate(-50%,-50%);
   z-index:80;
-  width:100%;
-  max-width:100%;
-  height:160px;
+  width:480px;
+  height:270px;
   background:#000;
-  border-bottom:2px solid rgba(255,255,255,0.08);
+  border:2px solid rgba(255,255,255,0.08);
   box-shadow:0 4px 25px rgba(0,0,0,0.6);
   overflow:hidden;
   transition:box-shadow .3s ease;
@@ -67,17 +154,45 @@ svg.icon-svg{width:100%;height:100%;position:relative;z-index:6;overflow:visible
   box-shadow:0 0 25px rgba(255,255,255,0.4),0 0 60px rgba(0,255,234,0.25);
 }
 .tv-screen{width:100%;height:100%;object-fit:cover;background:#000}
-.tv-overlay{position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(to bottom,rgba(255,255,255,0.02)0,rgba(255,255,255,0.02)1px,transparent 2px,transparent 4px);mix-blend-mode:overlay}
+.tv-overlay{
+  position:absolute;inset:0;pointer-events:none;
+  background:repeating-linear-gradient(to bottom,rgba(255,255,255,0.02)0,rgba(255,255,255,0.02)1px,transparent 2px,transparent 4px);
+  mix-blend-mode:overlay;
+}
 
-.cursor{position:fixed;left:0;top:0;width:160px;height:160px;border-radius:50%;pointer-events:none;z-index:100;mix-blend-mode:screen;transform:translate(-50%,-50%) scale(.8);transition:transform .05s linear;filter:blur(6px)}
-.cursor .ring{position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 35% 30%,rgba(0,255,234,0.45),transparent 20%),radial-gradient(circle at 70% 70%,rgba(255,45,149,0.25),transparent 18%);animation:ringJitter .9s infinite}
-.cursor .noise{position:absolute;inset:12px;border-radius:50%;background-image:radial-gradient(circle,rgba(255,255,255,0.06),transparent 2px);mix-blend-mode:overlay;opacity:.9;animation:noiseFloater .06s steps(2) infinite}
+/* === Cursor + Stars === */
+.cursor{
+  position:fixed;left:0;top:0;width:160px;height:160px;border-radius:50%;
+  pointer-events:none;z-index:100;mix-blend-mode:screen;
+  transform:translate(-50%,-50%) scale(.8);transition:transform .05s linear;
+  filter:blur(6px);
+}
+.cursor .ring{
+  position:absolute;inset:0;border-radius:50%;
+  background:radial-gradient(circle at 35% 30%,rgba(0,255,234,0.45),transparent 20%),radial-gradient(circle at 70% 70%,rgba(255,45,149,0.25),transparent 18%);
+  animation:ringJitter .9s infinite;
+}
+.cursor .noise{
+  position:absolute;inset:12px;border-radius:50%;
+  background-image:radial-gradient(circle,rgba(255,255,255,0.06),transparent 2px);
+  mix-blend-mode:overlay;opacity:.9;animation:noiseFloater .06s steps(2) infinite;
+}
 @keyframes ringJitter{0%{transform:scale(1)}25%{transform:scale(.98)}50%{transform:scale(1.03)}75%{transform:scale(.97)}100%{transform:scale(1)}}
 @keyframes noiseFloater{0%{transform:translateY(0)}100%{transform:translateY(-2px)}}
-#stars{position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden}
-.star{position:absolute;width:2px;height:2px;border-radius:50%;background:#fff;opacity:.85;filter:drop-shadow(0 0 6px rgba(255,255,255,0.06))}
-.star.tiny{width:1px;height:1px;opacity:.7;filter:none}
-@media(max-width:600px){.icon-container{gap:46px;flex-direction:column}.cursor{width:120px;height:120px}}
+
+#stars{
+  position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden;
+}
+.star{
+  position:absolute;width:2px;height:2px;border-radius:50%;background:#fff;
+  opacity:.85;filter:drop-shadow(0 0 6px rgba(255,255,255,0.06));
+}
+.star.tiny{width:1px;height:1px;opacity:.7;filter:none;}
+
+@media(max-width:600px){
+  .icon-container{gap:46px;flex-direction:column;}
+  .cursor{width:120px;height:120px;}
+}
 </style>
 </head>
 <body>
@@ -86,7 +201,7 @@ svg.icon-svg{width:100%;height:100%;position:relative;z-index:6;overflow:visible
 <div id="scanlines"></div>
 <div id="flickerBars"></div>
 
-<!-- TV HEADER -->
+<!-- Floating TV Header -->
 <div class="tv-wrap" id="tvWrap" aria-label="TV">
   <video id="tv" class="tv-screen" playsinline muted loop>
     <source src="./IMG_3838.MOV" type="video/mp4">
@@ -95,6 +210,7 @@ svg.icon-svg{width:100%;height:100%;position:relative;z-index:6;overflow:visible
   <div class="tv-overlay"></div>
 </div>
 
+<!-- Main Icons -->
 <div class="wrap">
   <div class="icon-container">
     <button id="paintBtn" class="icon-btn" aria-label="Paint">
@@ -122,7 +238,7 @@ svg.icon-svg{width:100%;height:100%;position:relative;z-index:6;overflow:visible
   <div class="noise"></div>
 </div>
 <!-- CHUNK 1 END -->
-<!-- CHUNK 2 START -->
+  <!-- CHUNK 2 START -->
 <!-- Hidden audio player -->
 <audio id="player" preload="auto"></audio>
 
@@ -151,58 +267,62 @@ let currentTrack = 0;
 let currentChannel = 0;
 let autoplayAttempted = false;
 
-/* Set and play a track by index (wraps around) */
+/* ---- Audio: set and play a track (wraps) ---- */
 function setTrack(index) {
   currentTrack = (index + audioFiles.length) % audioFiles.length;
   player.src = audioFiles[currentTrack];
   player.load();
   player.play().then(()=> {
-    player.volume = 1.0; // Full volume
+    player.volume = 1.0; // full volume as requested
+    // remove any fallback gesture listeners
     window.removeEventListener('touchstart', startOnGesture);
     window.removeEventListener('click', startOnGesture);
   }).catch((err) => {
+    // autoplay blocked — attach one-time gesture to start both audio & TV
     console.warn('Autoplay blocked — will start on first tap/click.', err);
     window.addEventListener('touchstart', startOnGesture, {once:true});
     window.addEventListener('click', startOnGesture, {once:true});
   });
 }
 
-/* One-time gesture starter */
+/* one-time user gesture to start playback */
 function startOnGesture(){
   player.play().catch(e=>console.error('Play failed after gesture', e));
   tv.play().catch(e=>console.warn('TV play blocked after gesture', e));
 }
 
-/* Advance track when current ends */
+/* advance track when current ends */
 player.addEventListener('ended', ()=> {
   setTrack(currentTrack + 1);
 });
 
-/* Try to start playback on page load */
+/* try autoplay on load */
 function tryAutoplay() {
   if (autoplayAttempted) return;
   autoplayAttempted = true;
   setTrack(0); // start with BM AM & PM
-  setChannel(0);
+  setChannel(0); // start TV (muted)
 }
 
-/* ====== TV channel handling ====== */
+/* ---- TV channel handling ---- */
 function setChannel(index) {
   currentChannel = (index + videoFiles.length) % videoFiles.length;
   tv.pause();
+  // swap in src and load
   tv.src = videoFiles[currentChannel];
   tv.load();
+  // muted autoplay usually allowed
   tv.play().catch(e => console.warn('TV autoplay blocked', e));
 }
 
-/* Channel switching (with glow pulse) */
+/* channel switch visual + behavior */
 tvWrap.addEventListener('click', ()=> {
   tvWrap.classList.add('glow');
   setTimeout(()=> tvWrap.classList.remove('glow'), 420);
   setChannel(currentChannel + 1);
 });
 
-/* Accessibility: keyboard channel change */
+/* keyboard accessibility for TV */
 tvWrap.tabIndex = 0;
 tvWrap.addEventListener('keydown', (e)=>{
   if (e.key === 'Enter' || e.key === ' ') {
@@ -211,10 +331,10 @@ tvWrap.addEventListener('keydown', (e)=>{
   }
 });
 
-/* Attempt autoplay after load */
+/* attempt autoplay after small delay to let layout settle */
 window.addEventListener('load', ()=> setTimeout(tryAutoplay, 200));
 
-/* Resume playback when tab visible */
+/* resume playback on visibility change */
 document.addEventListener('visibilitychange', ()=> {
   if (!document.hidden) {
     player.play().catch(()=>{});
@@ -222,8 +342,85 @@ document.addEventListener('visibilitychange', ()=> {
   }
 });
 
-/* Prevent context menu on long press (mobile) */
+/* prevent long-press context menu on mobile tv */
 tvWrap.addEventListener('contextmenu', e => e.preventDefault());
+
+/* ====== TV DRIFT: defined here but NOT started until boot fade completes ====== */
+function startTvDrift(){
+  // if already running, skip
+  if (tvWrap.dataset.drifting === "true") return;
+  tvWrap.dataset.drifting = "true";
+
+  // initial numeric position (center-ish)
+  let x = (window.innerWidth - tvWrap.offsetWidth) / 2;
+  let y = 30; // start near top area
+  // small slow speed
+  let vx = (Math.random() < 0.5 ? 1 : -1) * 0.25;
+  let vy = (Math.random() < 0.5 ? 1 : -1) * 0.18;
+  const padding = 8;
+
+  // ensure we use pixel positioning
+  tvWrap.style.left = `${x}px`;
+  tvWrap.style.top  = `${y}px`;
+  tvWrap.style.transform = 'translate(0,0)';
+  tvWrap.style.position = 'fixed';
+
+  let lastTime = performance.now();
+
+  function step(now){
+    const dt = Math.min(40, now - lastTime) / 16.666; // normalized delta (approx frames)
+    lastTime = now;
+
+    const rect = tvWrap.getBoundingClientRect();
+    const w = rect.width;
+    const h = rect.height;
+
+    x += vx * dt;
+    y += vy * dt;
+
+    // bounce on horizontal edges
+    if (x <= padding) {
+      x = padding;
+      vx *= -1;
+      tvWrap.classList.add('glow');
+      setTimeout(()=> tvWrap.classList.remove('glow'), 420);
+    } else if (x + w >= window.innerWidth - padding) {
+      x = window.innerWidth - w - padding;
+      vx *= -1;
+      tvWrap.classList.add('glow');
+      setTimeout(()=> tvWrap.classList.remove('glow'), 420);
+    }
+
+    // bounce on vertical edges
+    if (y <= padding) {
+      y = padding;
+      vy *= -1;
+      tvWrap.classList.add('glow');
+      setTimeout(()=> tvWrap.classList.remove('glow'), 420);
+    } else if (y + h >= window.innerHeight - padding) {
+      y = window.innerHeight - h - padding;
+      vy *= -1;
+      tvWrap.classList.add('glow');
+      setTimeout(()=> tvWrap.classList.remove('glow'), 420);
+    }
+
+    tvWrap.style.left = `${x}px`;
+    tvWrap.style.top  = `${y}px`;
+
+    requestAnimationFrame(step);
+  }
+
+  requestAnimationFrame(step);
+
+  // keep TV inside bounds on resize
+  window.addEventListener('resize', ()=> {
+    x = Math.min(Math.max(x, padding), window.innerWidth - tvWrap.offsetWidth - padding);
+    y = Math.min(Math.max(y, padding), window.innerHeight - tvWrap.offsetHeight - padding);
+  });
+}
+
+// expose to global so boot chunk can trigger it
+window.startTvDrift = startTvDrift;
 </script>
 <!-- CHUNK 2 END -->
 <!-- CHUNK 3 START -->
@@ -259,7 +456,7 @@ document.addEventListener("mousemove", e => {
 document.addEventListener("mousedown", () => cursor.style.transform = "translate(-50%,-50%) scale(1.2)");
 document.addEventListener("mouseup", () => cursor.style.transform = "translate(-50%,-50%) scale(0.8)");
 
-// --- CRT-style flicker overlay on click (P/G) ---
+// --- CRT-style flicker overlay when P or G is clicked ---
 function flashOverlay(colorClass){
   const flash = document.createElement("div");
   flash.className = `flash-overlay ${colorClass}`;
@@ -286,7 +483,7 @@ document.getElementById("glueBtn").addEventListener("click", ()=>flashOverlay("f
 }
 </style>
 <!-- CHUNK 3 END -->
-<!-- CHUNK 4 START (bootinup-bootsup intro) -->
+<!-- CHUNK 4 START (bootinup-bootsup intro + TV drift start) -->
 <style>
 /* ===== Boot Screen Styling ===== */
 #bootScreen {
@@ -356,9 +553,24 @@ window.addEventListener("load", () => {
   const bootScreen = document.getElementById("bootScreen");
   setTimeout(() => {
     bootScreen.classList.add("fadeOut");
-  }, 2600); // stays up for ~2.6s total
+    // Start TV drift after fade
+    setTimeout(() => {
+      if (typeof startTvDrift === "function") startTvDrift();
+    }, 900);
+  }, 2600); // boot screen stays up ~2.6s total
 });
 </script>
 <!-- CHUNK 4 END -->
+<!-- CHUNK 5 START (final close + safety hooks) -->
+<script>
+/* ===== Optional small runtime helpers ===== */
+
+// Example: if you'd ever like to trigger a glitch or extra flash from console
+window.triggerFlash = function(color="blue"){
+  flashOverlay(color==="red" ? "flash-red" : "flash-blue");
+};
+</script>
+
 </body>
 </html>
+<!-- CHUNK 5 END -->
