@@ -55,84 +55,26 @@ html,body{
   z-index:6;
 }
 button.icon-btn{
-  width:140px;
-  height:180px;
-  display:block;
-  position:relative;
-  cursor:pointer;
-  background:transparent;
-  border:none;
-  padding:0;
+  width:140px;height:180px;display:block;position:relative;
+  cursor:pointer;background:transparent;border:none;padding:0;
 }
-svg.icon-svg{
-  width:100%;
-  height:100%;
-  position:relative;
-  z-index:6;
-  overflow:visible;
-}
-.shape-path{
-  fill:none;
-  stroke:#fff;
-  stroke-width:2.2;
-  stroke-linejoin:round;
-  stroke-linecap:round;
-}
-.shape-text{
-  fill:#fff;
-  font-weight:700;
-  font-family:Courier,monospace;
-  font-size:18px;
-  dominant-baseline:middle;
-  text-anchor:middle;
-}
-.outline-left{
-  stroke:rgba(0,0,255,0.9);
-  stroke-width:2.2;
-  filter:blur(.6px);
-  mix-blend-mode:screen;
-  animation:osc1 2.6s infinite ease-in-out;
-}
-.outline-right{
-  stroke:rgba(255,59,59,0.9);
-  stroke-width:2.2;
-  filter:blur(.6px);
-  mix-blend-mode:screen;
-  animation:osc2 1.8s infinite ease-in-out;
-}
-@keyframes osc1{
-  0%{transform:translateX(-3px)translateY(-1px)}
-  50%{transform:translateX(2px)translateY(1px)}
-  100%{transform:translateX(-3px)translateY(-1px)}
-}
-@keyframes osc2{
-  0%{transform:translateX(3px)translateY(2px)}
-  50%{transform:translateX(-2px)translateY(-1px)}
-  100%{transform:translateX(3px)translateY(2px)}
-}
+svg.icon-svg{width:100%;height:100%;position:relative;z-index:6;overflow:visible;}
+.shape-path{fill:none;stroke:#fff;stroke-width:2.2;stroke-linejoin:round;stroke-linecap:round;}
+.shape-text{fill:#fff;font-weight:700;font-family:Courier,monospace;font-size:18px;dominant-baseline:middle;text-anchor:middle;}
+.outline-left{stroke:rgba(0,0,255,0.9);filter:blur(.6px);mix-blend-mode:screen;animation:osc1 2.6s infinite ease-in-out;}
+.outline-right{stroke:rgba(255,59,59,0.9);filter:blur(.6px);mix-blend-mode:screen;animation:osc2 1.8s infinite ease-in-out;}
+@keyframes osc1{0%{transform:translateX(-3px)translateY(-1px)}50%{transform:translateX(2px)translateY(1px)}100%{transform:translateX(-3px)translateY(-1px)}}
+@keyframes osc2{0%{transform:translateX(3px)translateY(2px)}50%{transform:translateX(-2px)translateY(-1px)}100%{transform:translateX(3px)translateY(2px)}}
 
 /* === VHS FX === */
-#staticNoise{
-  position:fixed;inset:0;z-index:40;pointer-events:none;
-  mix-blend-mode:screen;opacity:.16;
-  background-image:url("https://media.giphy.com/media/oEI9uBYSzLpBK/giphy.gif");
-  background-size:cover;
-  animation:moveStatic .18s steps(2) infinite;
-}
+#staticNoise{position:fixed;inset:0;z-index:40;pointer-events:none;mix-blend-mode:screen;opacity:.16;
+background-image:url("https://media.giphy.com/media/oEI9uBYSzLpBK/giphy.gif");background-size:cover;animation:moveStatic .18s steps(2) infinite;}
 @keyframes moveStatic{from{background-position:0 0}to{background-position:100% 100%}}
-
-#scanlines{
-  position:fixed;inset:0;z-index:42;pointer-events:none;
-  background:repeating-linear-gradient(to bottom,rgba(255,255,255,0.03)0,rgba(255,255,255,0.03)1px,transparent 2px,transparent 4px);
-  opacity:.22;mix-blend-mode:overlay;animation:scanlineShift 5.8s linear infinite;
-}
+#scanlines{position:fixed;inset:0;z-index:42;pointer-events:none;background:repeating-linear-gradient(to bottom,rgba(255,255,255,0.03)0,rgba(255,255,255,0.03)1px,transparent 2px,transparent 4px);
+opacity:.22;mix-blend-mode:overlay;animation:scanlineShift 5.8s linear infinite;}
 @keyframes scanlineShift{0%{background-position:0 0}100%{background-position:0 8px}}
-
-#flickerBars{
-  position:fixed;inset:0;z-index:43;pointer-events:none;
-  background:linear-gradient(180deg,rgba(255,255,255,0.14),transparent 50%,rgba(255,255,255,0.14));
-  mix-blend-mode:overlay;opacity:.06;animation:flicker 2.2s infinite;
-}
+#flickerBars{position:fixed;inset:0;z-index:43;pointer-events:none;background:linear-gradient(180deg,rgba(255,255,255,0.14),transparent 50%,rgba(255,255,255,0.14));
+mix-blend-mode:overlay;opacity:.06;animation:flicker 2.2s infinite;}
 @keyframes flicker{0%,100%{opacity:.04}50%{opacity:.16}}
 
 /* === FLOATING TV === */
@@ -142,57 +84,36 @@ svg.icon-svg{
   top:50%;
   transform:translate(-50%,-50%);
   z-index:80;
-  width:480px;
-  height:270px;
+  width:240px;
+  height:135px;
   background:#000;
   border:2px solid rgba(255,255,255,0.08);
   box-shadow:0 4px 25px rgba(0,0,0,0.6);
   overflow:hidden;
   transition:box-shadow .3s ease;
 }
-.tv-wrap.glow{
-  box-shadow:0 0 25px rgba(255,255,255,0.4),0 0 60px rgba(0,255,234,0.25);
-}
-.tv-screen{width:100%;height:100%;object-fit:cover;background:#000}
-.tv-overlay{
-  position:absolute;inset:0;pointer-events:none;
-  background:repeating-linear-gradient(to bottom,rgba(255,255,255,0.02)0,rgba(255,255,255,0.02)1px,transparent 2px,transparent 4px);
-  mix-blend-mode:overlay;
+.tv-wrap.glow{box-shadow:0 0 25px rgba(255,255,255,0.4),0 0 60px rgba(0,255,234,0.25);}
+.tv-screen{width:100%;height:100%;object-fit:cover;background:#000;}
+.tv-overlay{position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(to bottom,rgba(255,255,255,0.02)0,rgba(255,255,255,0.02)1px,transparent 2px,transparent 4px);mix-blend-mode:overlay;}
+
+/* smaller on mobile */
+@media(max-width:600px){
+  .tv-wrap{width:160px;height:90px;}
 }
 
 /* === Cursor + Stars === */
-.cursor{
-  position:fixed;left:0;top:0;width:160px;height:160px;border-radius:50%;
-  pointer-events:none;z-index:100;mix-blend-mode:screen;
-  transform:translate(-50%,-50%) scale(.8);transition:transform .05s linear;
-  filter:blur(6px);
-}
-.cursor .ring{
-  position:absolute;inset:0;border-radius:50%;
-  background:radial-gradient(circle at 35% 30%,rgba(0,255,234,0.45),transparent 20%),radial-gradient(circle at 70% 70%,rgba(255,45,149,0.25),transparent 18%);
-  animation:ringJitter .9s infinite;
-}
-.cursor .noise{
-  position:absolute;inset:12px;border-radius:50%;
-  background-image:radial-gradient(circle,rgba(255,255,255,0.06),transparent 2px);
-  mix-blend-mode:overlay;opacity:.9;animation:noiseFloater .06s steps(2) infinite;
-}
+.cursor{position:fixed;left:0;top:0;width:160px;height:160px;border-radius:50%;pointer-events:none;z-index:100;mix-blend-mode:screen;
+transform:translate(-50%,-50%) scale(.8);transition:transform .05s linear;filter:blur(6px);}
+.cursor .ring{position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 35% 30%,rgba(0,255,234,0.45),transparent 20%),
+radial-gradient(circle at 70% 70%,rgba(255,45,149,0.25),transparent 18%);animation:ringJitter .9s infinite;}
+.cursor .noise{position:absolute;inset:12px;border-radius:50%;background-image:radial-gradient(circle,rgba(255,255,255,0.06),transparent 2px);
+mix-blend-mode:overlay;opacity:.9;animation:noiseFloater .06s steps(2) infinite;}
 @keyframes ringJitter{0%{transform:scale(1)}25%{transform:scale(.98)}50%{transform:scale(1.03)}75%{transform:scale(.97)}100%{transform:scale(1)}}
 @keyframes noiseFloater{0%{transform:translateY(0)}100%{transform:translateY(-2px)}}
-
-#stars{
-  position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden;
-}
-.star{
-  position:absolute;width:2px;height:2px;border-radius:50%;background:#fff;
-  opacity:.85;filter:drop-shadow(0 0 6px rgba(255,255,255,0.06));
-}
+#stars{position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden;}
+.star{position:absolute;width:2px;height:2px;border-radius:50%;background:#fff;opacity:.85;filter:drop-shadow(0 0 6px rgba(255,255,255,0.06));}
 .star.tiny{width:1px;height:1px;opacity:.7;filter:none;}
-
-@media(max-width:600px){
-  .icon-container{gap:46px;flex-direction:column;}
-  .cursor{width:120px;height:120px;}
-}
+@media(max-width:600px){.icon-container{gap:46px;flex-direction:column;}.cursor{width:120px;height:120px;}}
 </style>
 </head>
 <body>
@@ -201,7 +122,7 @@ svg.icon-svg{
 <div id="scanlines"></div>
 <div id="flickerBars"></div>
 
-<!-- Floating TV Header -->
+<!-- Floating TV -->
 <div class="tv-wrap" id="tvWrap" aria-label="TV">
   <video id="tv" class="tv-screen" playsinline muted loop>
     <source src="./IMG_3838.MOV" type="video/mp4">
@@ -238,12 +159,10 @@ svg.icon-svg{
   <div class="noise"></div>
 </div>
 <!-- CHUNK 1 END -->
-  <!-- CHUNK 2 START -->
-<!-- Hidden audio player -->
+<!-- CHUNK 2 START -->
 <audio id="player" preload="auto"></audio>
 
 <script>
-/* ====== Playlist & TV configuration ====== */
 const audioFiles = [
   "./BM AM & PM.m4a",
   "./Biebs in the Glue .m4a",
@@ -251,7 +170,6 @@ const audioFiles = [
   "./FB Remix.m4a",
   "./Frtruck.m4a"
 ];
-
 const videoFiles = [
   "./IMG_3838.MOV",
   "./MoshUp_0021~2.mp4",
@@ -259,318 +177,150 @@ const videoFiles = [
   "./My Movie 54.mov"
 ];
 
-const player = document.getElementById('player');
-const tv = document.getElementById('tv');
-const tvWrap = document.getElementById('tvWrap');
+const player = document.getElementById("player");
+const tv = document.getElementById("tv");
+const tvWrap = document.getElementById("tvWrap");
 
-let currentTrack = 0;
-let currentChannel = 0;
-let autoplayAttempted = false;
+let currentTrack = 0, currentChannel = 0, autoplayAttempted = false;
 
-/* ---- Audio: set and play a track (wraps) ---- */
-function setTrack(index) {
+function setTrack(index){
   currentTrack = (index + audioFiles.length) % audioFiles.length;
   player.src = audioFiles[currentTrack];
   player.load();
-  player.play().then(()=> {
-    player.volume = 1.0; // full volume as requested
-    // remove any fallback gesture listeners
-    window.removeEventListener('touchstart', startOnGesture);
-    window.removeEventListener('click', startOnGesture);
-  }).catch((err) => {
-    // autoplay blocked — attach one-time gesture to start both audio & TV
-    console.warn('Autoplay blocked — will start on first tap/click.', err);
-    window.addEventListener('touchstart', startOnGesture, {once:true});
-    window.addEventListener('click', startOnGesture, {once:true});
+  player.play().then(()=>{
+    player.volume = 1.0;
+    window.removeEventListener("touchstart", startOnGesture);
+    window.removeEventListener("click", startOnGesture);
+  }).catch(()=>{
+    window.addEventListener("touchstart", startOnGesture, {once:true});
+    window.addEventListener("click", startOnGesture, {once:true});
   });
 }
-
-/* one-time user gesture to start playback */
 function startOnGesture(){
-  player.play().catch(e=>console.error('Play failed after gesture', e));
-  tv.play().catch(e=>console.warn('TV play blocked after gesture', e));
+  player.play().catch(()=>{});
+  tv.play().catch(()=>{});
 }
-
-/* advance track when current ends */
-player.addEventListener('ended', ()=> {
-  setTrack(currentTrack + 1);
-});
-
-/* try autoplay on load */
-function tryAutoplay() {
-  if (autoplayAttempted) return;
+player.addEventListener("ended", ()=> setTrack(currentTrack + 1));
+function tryAutoplay(){
+  if(autoplayAttempted) return;
   autoplayAttempted = true;
-  setTrack(0); // start with BM AM & PM
-  setChannel(0); // start TV (muted)
+  setTrack(0);
+  setChannel(0);
 }
-
-/* ---- TV channel handling ---- */
-function setChannel(index) {
+function setChannel(index){
   currentChannel = (index + videoFiles.length) % videoFiles.length;
   tv.pause();
-  // swap in src and load
   tv.src = videoFiles[currentChannel];
   tv.load();
-  // muted autoplay usually allowed
-  tv.play().catch(e => console.warn('TV autoplay blocked', e));
+  tv.play().catch(()=>{});
 }
-
-/* channel switch visual + behavior */
-tvWrap.addEventListener('click', ()=> {
-  tvWrap.classList.add('glow');
-  setTimeout(()=> tvWrap.classList.remove('glow'), 420);
+tvWrap.addEventListener("click", ()=>{
+  tvWrap.classList.add("glow");
+  setTimeout(()=> tvWrap.classList.remove("glow"), 420);
   setChannel(currentChannel + 1);
 });
-
-/* keyboard accessibility for TV */
 tvWrap.tabIndex = 0;
-tvWrap.addEventListener('keydown', (e)=>{
-  if (e.key === 'Enter' || e.key === ' ') {
-    e.preventDefault();
-    tvWrap.click();
-  }
+tvWrap.addEventListener("keydown", e=>{
+  if(e.key==="Enter"||e.key===" "){e.preventDefault();tvWrap.click();}
 });
+window.addEventListener("load", ()=> setTimeout(tryAutoplay, 200));
+document.addEventListener("visibilitychange", ()=>{if(!document.hidden){player.play().catch(()=>{});tv.play().catch(()=>{});}});
+tvWrap.addEventListener("contextmenu", e=>e.preventDefault());
 
-/* attempt autoplay after small delay to let layout settle */
-window.addEventListener('load', ()=> setTimeout(tryAutoplay, 200));
-
-/* resume playback on visibility change */
-document.addEventListener('visibilitychange', ()=> {
-  if (!document.hidden) {
-    player.play().catch(()=>{});
-    tv.play().catch(()=>{});
-  }
-});
-
-/* prevent long-press context menu on mobile tv */
-tvWrap.addEventListener('contextmenu', e => e.preventDefault());
-
-/* ====== TV DRIFT: defined here but NOT started until boot fade completes ====== */
+/* ---- Floating TV drift (starts later) ---- */
 function startTvDrift(){
-  // if already running, skip
-  if (tvWrap.dataset.drifting === "true") return;
-  tvWrap.dataset.drifting = "true";
-
-  // initial numeric position (center-ish)
-  let x = (window.innerWidth - tvWrap.offsetWidth) / 2;
-  let y = 30; // start near top area
-  // small slow speed
-  let vx = (Math.random() < 0.5 ? 1 : -1) * 0.25;
-  let vy = (Math.random() < 0.5 ? 1 : -1) * 0.18;
-  const padding = 8;
-
-  // ensure we use pixel positioning
-  tvWrap.style.left = `${x}px`;
-  tvWrap.style.top  = `${y}px`;
-  tvWrap.style.transform = 'translate(0,0)';
-  tvWrap.style.position = 'fixed';
-
-  let lastTime = performance.now();
-
+  if(tvWrap.dataset.drifting==="true") return;
+  tvWrap.dataset.drifting="true";
+  let x=(window.innerWidth-tvWrap.offsetWidth)/2,
+      y=30,
+      vx=(Math.random()<0.5?-1:1)*0.25,
+      vy=(Math.random()<0.5?-1:1)*0.18,
+      padding=8;
+  tvWrap.style.left=`${x}px`; tvWrap.style.top=`${y}px`;
+  tvWrap.style.transform="translate(0,0)";
+  tvWrap.style.position="fixed";
+  let last=performance.now();
   function step(now){
-    const dt = Math.min(40, now - lastTime) / 16.666; // normalized delta (approx frames)
-    lastTime = now;
-
-    const rect = tvWrap.getBoundingClientRect();
-    const w = rect.width;
-    const h = rect.height;
-
-    x += vx * dt;
-    y += vy * dt;
-
-    // bounce on horizontal edges
-    if (x <= padding) {
-      x = padding;
-      vx *= -1;
-      tvWrap.classList.add('glow');
-      setTimeout(()=> tvWrap.classList.remove('glow'), 420);
-    } else if (x + w >= window.innerWidth - padding) {
-      x = window.innerWidth - w - padding;
-      vx *= -1;
-      tvWrap.classList.add('glow');
-      setTimeout(()=> tvWrap.classList.remove('glow'), 420);
-    }
-
-    // bounce on vertical edges
-    if (y <= padding) {
-      y = padding;
-      vy *= -1;
-      tvWrap.classList.add('glow');
-      setTimeout(()=> tvWrap.classList.remove('glow'), 420);
-    } else if (y + h >= window.innerHeight - padding) {
-      y = window.innerHeight - h - padding;
-      vy *= -1;
-      tvWrap.classList.add('glow');
-      setTimeout(()=> tvWrap.classList.remove('glow'), 420);
-    }
-
-    tvWrap.style.left = `${x}px`;
-    tvWrap.style.top  = `${y}px`;
-
+    const dt=Math.min(40,now-last)/16.666; last=now;
+    const w=tvWrap.offsetWidth, h=tvWrap.offsetHeight;
+    x+=vx*dt; y+=vy*dt;
+    if(x<=padding||x+w>=window.innerWidth-padding){vx*=-1;tvWrap.classList.add("glow");setTimeout(()=>tvWrap.classList.remove("glow"),400);}
+    if(y<=padding||y+h>=window.innerHeight-padding){vy*=-1;tvWrap.classList.add("glow");setTimeout(()=>tvWrap.classList.remove("glow"),400);}
+    tvWrap.style.left=`${x}px`; tvWrap.style.top=`${y}px`;
     requestAnimationFrame(step);
   }
-
   requestAnimationFrame(step);
-
-  // keep TV inside bounds on resize
-  window.addEventListener('resize', ()=> {
-    x = Math.min(Math.max(x, padding), window.innerWidth - tvWrap.offsetWidth - padding);
-    y = Math.min(Math.max(y, padding), window.innerHeight - tvWrap.offsetHeight - padding);
+  window.addEventListener("resize",()=>{
+    x=Math.min(Math.max(x,padding),window.innerWidth-tvWrap.offsetWidth-padding);
+    y=Math.min(Math.max(y,padding),window.innerHeight-tvWrap.offsetHeight-padding);
   });
 }
-
-// expose to global so boot chunk can trigger it
-window.startTvDrift = startTvDrift;
+window.startTvDrift=startTvDrift;
 </script>
 <!-- CHUNK 2 END -->
 <!-- CHUNK 3 START -->
 <script>
-/* ====== Stars and cursor effects ====== */
-
-// --- Twinkling stars background ---
-const starContainer = document.getElementById("stars");
-const numStars = 120;
-for (let i = 0; i < numStars; i++) {
-  const s = document.createElement("div");
-  s.className = "star" + (Math.random() < 0.4 ? " tiny" : "");
-  s.style.left = Math.random() * 100 + "%";
-  s.style.top = Math.random() * 100 + "%";
-  s.style.animation = `twinkle${i} ${2 + Math.random() * 4}s ease-in-out infinite`;
-  const keyframes = `
-    @keyframes twinkle${i}{
-      0%,100%{opacity:${0.4 + Math.random() * 0.4}}
-      50%{opacity:${0.8 + Math.random() * 0.2}}
-    }`;
-  const styleSheet = document.createElement("style");
-  styleSheet.textContent = keyframes;
-  document.head.appendChild(styleSheet);
+const starContainer=document.getElementById("stars");
+const numStars=120;
+for(let i=0;i<numStars;i++){
+  const s=document.createElement("div");
+  s.className="star"+(Math.random()<0.4?" tiny":"");
+  s.style.left=Math.random()*100+"%";
+  s.style.top=Math.random()*100+"%";
+  s.style.animation=`twinkle${i} ${2+Math.random()*4}s ease-in-out infinite`;
+  const kf=`@keyframes twinkle${i}{0%,100%{opacity:${0.4+Math.random()*0.4}}50%{opacity:${0.8+Math.random()*0.2}}}`;
+  const st=document.createElement("style");st.textContent=kf;document.head.appendChild(st);
   starContainer.appendChild(s);
 }
-
-// --- Glowing cursor that follows the mouse ---
-const cursor = document.getElementById("cursor");
-document.addEventListener("mousemove", e => {
-  cursor.style.left = e.clientX + "px";
-  cursor.style.top = e.clientY + "px";
-});
-document.addEventListener("mousedown", () => cursor.style.transform = "translate(-50%,-50%) scale(1.2)");
-document.addEventListener("mouseup", () => cursor.style.transform = "translate(-50%,-50%) scale(0.8)");
-
-// --- CRT-style flicker overlay when P or G is clicked ---
-function flashOverlay(colorClass){
-  const flash = document.createElement("div");
-  flash.className = `flash-overlay ${colorClass}`;
-  document.body.appendChild(flash);
-  requestAnimationFrame(()=>{flash.style.opacity = 0.6;});
-  setTimeout(()=>flash.style.opacity = 0, 100);
-  setTimeout(()=>flash.remove(), 200);
+const cursor=document.getElementById("cursor");
+document.addEventListener("mousemove",e=>{cursor.style.left=e.clientX+"px";cursor.style.top=e.clientY+"px";});
+document.addEventListener("mousedown",()=>cursor.style.transform="translate(-50%,-50%) scale(1.2)");
+document.addEventListener("mouseup",()=>cursor.style.transform="translate(-50%,-50%) scale(0.8)");
+function flashOverlay(cls){
+  const f=document.createElement("div");f.className=`flash-overlay ${cls}`;document.body.appendChild(f);
+  requestAnimationFrame(()=>{f.style.opacity=0.6;});setTimeout(()=>f.style.opacity=0,100);setTimeout(()=>f.remove(),200);
 }
-
-document.getElementById("paintBtn").addEventListener("click", ()=>flashOverlay("flash-blue"));
-document.getElementById("glueBtn").addEventListener("click", ()=>flashOverlay("flash-red"));
+document.getElementById("paintBtn").addEventListener("click",()=>flashOverlay("flash-blue"));
+document.getElementById("glueBtn").addEventListener("click",()=>flashOverlay("flash-red"));
 </script>
-
 <style>
-.flash-overlay{
-  position:fixed;inset:0;z-index:90;pointer-events:none;
-  mix-blend-mode:screen;opacity:0;transition:opacity .12s linear;
-}
-.flash-blue{
-  background:linear-gradient(180deg,rgba(30,144,255,0.25),rgba(10,30,255,0.15));
-}
-.flash-red{
-  background:linear-gradient(180deg,rgba(255,40,40,0.25),rgba(255,10,10,0.15));
-}
+.flash-overlay{position:fixed;inset:0;z-index:90;pointer-events:none;mix-blend-mode:screen;opacity:0;transition:opacity .12s linear;}
+.flash-blue{background:linear-gradient(180deg,rgba(30,144,255,0.25),rgba(10,30,255,0.15));}
+.flash-red{background:linear-gradient(180deg,rgba(255,40,40,0.25),rgba(255,10,10,0.15));}
 </style>
 <!-- CHUNK 3 END -->
-<!-- CHUNK 4 START (bootinup-bootsup intro + TV drift start) -->
+<!-- CHUNK 4 START -->
 <style>
-/* ===== Boot Screen Styling ===== */
-#bootScreen {
-  position: fixed;
-  inset: 0;
-  background: #000;
-  color: #00ff66;
-  font-family: 'Courier New', Courier, monospace;
-  font-size: 1.4rem;
-  letter-spacing: 1px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 999;
-  overflow: hidden;
-}
-#bootText {
-  white-space: pre;
-  overflow: hidden;
-  border-right: 2px solid #00ff66;
-  animation: typing 2s steps(20,end), blinkCursor .5s step-end infinite alternate;
-}
-@keyframes typing { from{width:0} to{width:18ch} }
-@keyframes blinkCursor { from{border-color:transparent} to{border-color:#00ff66} }
-
-/* Fade-out with CRT flicker and scanline distortion */
-.fadeOut {
-  animation: fadeOut 1s ease forwards, flicker .25s steps(2) 3;
-}
-@keyframes fadeOut {
-  0% {opacity:1;filter:none;}
-  40% {filter:contrast(120%) brightness(140%) saturate(120%);}
-  70% {filter:contrast(80%) brightness(80%) saturate(90%);}
-  100% {opacity:0;visibility:hidden;}
-}
-@keyframes flicker {
-  0%,100%{opacity:1;}
-  50%{opacity:.6;}
-}
-/* subtle scanline overlay */
-#bootScreen::before {
-  content:"";
-  position:absolute;
-  inset:0;
-  background:repeating-linear-gradient(
-    to bottom,
-    rgba(0,255,102,0.05) 0px,
-    rgba(0,255,102,0.05) 1px,
-    transparent 2px,
-    transparent 4px
-  );
-  pointer-events:none;
-  mix-blend-mode:overlay;
-  opacity:.3;
-  animation:scanMove 6s linear infinite;
-}
-@keyframes scanMove { from{background-position:0 0;} to{background-position:0 8px;} }
+#bootScreen{position:fixed;inset:0;background:#000;color:#00ff66;font-family:'Courier New',monospace;font-size:1.4rem;letter-spacing:1px;
+display:flex;align-items:center;justify-content:center;z-index:999;overflow:hidden;}
+#bootText{white-space:pre;overflow:hidden;border-right:2px solid #00ff66;
+animation:typing 2s steps(20,end),blinkCursor .5s step-end infinite alternate;}
+@keyframes typing{from{width:0}to{width:18ch}}
+@keyframes blinkCursor{from{border-color:transparent}to{border-color:#00ff66}}
+.fadeOut{animation:fadeOut 1s ease forwards,flicker .25s steps(2) 3;}
+@keyframes fadeOut{0%{opacity:1;filter:none;}40%{filter:contrast(120%) brightness(140%) saturate(120%);}
+70%{filter:contrast(80%) brightness(80%) saturate(90%);}100%{opacity:0;visibility:hidden;}}
+@keyframes flicker{0%,100%{opacity:1;}50%{opacity:.6;}}
+#bootScreen::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(to bottom,
+rgba(0,255,102,0.05)0,rgba(0,255,102,0.05)1px,transparent 2px,transparent 4px);
+pointer-events:none;mix-blend-mode:overlay;opacity:.3;animation:scanMove 6s linear infinite;}
+@keyframes scanMove{from{background-position:0 0;}to{background-position:0 8px;}}
 </style>
-
-<div id="bootScreen">
-  <div id="bootText">&gt; bootinup-bootsup_</div>
-</div>
-
+<div id="bootScreen"><div id="bootText">&gt; bootinup-bootsup_</div></div>
 <script>
-/* ===== Boot Screen Logic ===== */
-window.addEventListener("load", () => {
-  const bootScreen = document.getElementById("bootScreen");
-  setTimeout(() => {
-    bootScreen.classList.add("fadeOut");
-    // Start TV drift after fade
-    setTimeout(() => {
-      if (typeof startTvDrift === "function") startTvDrift();
-    }, 900);
-  }, 2600); // boot screen stays up ~2.6s total
+window.addEventListener("load",()=>{
+  const boot=document.getElementById("bootScreen");
+  setTimeout(()=>{
+    boot.classList.add("fadeOut");
+    setTimeout(()=>{if(typeof startTvDrift==="function") startTvDrift();},900);
+  },2600);
 });
 </script>
 <!-- CHUNK 4 END -->
-<!-- CHUNK 5 START (final close + safety hooks) -->
+<!-- CHUNK 5 START -->
 <script>
-/* ===== Optional small runtime helpers ===== */
-
-// Example: if you'd ever like to trigger a glitch or extra flash from console
-window.triggerFlash = function(color="blue"){
-  flashOverlay(color==="red" ? "flash-red" : "flash-blue");
-};
+window.triggerFlash=function(color="blue"){flashOverlay(color==="red"?"flash-red":"flash-blue");};
 </script>
-
 </body>
 </html>
 <!-- CHUNK 5 END -->
