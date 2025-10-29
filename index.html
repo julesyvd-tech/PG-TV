@@ -95,11 +95,7 @@ mix-blend-mode:overlay;opacity:.06;animation:flicker 2.2s infinite;}
 .tv-wrap.glow{box-shadow:0 0 25px rgba(255,255,255,0.4),0 0 60px rgba(0,255,234,0.25);}
 .tv-screen{width:100%;height:100%;object-fit:cover;background:#000;}
 .tv-overlay{position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(to bottom,rgba(255,255,255,0.02)0,rgba(255,255,255,0.02)1px,transparent 2px,transparent 4px);mix-blend-mode:overlay;}
-
-/* smaller on mobile */
-@media(max-width:600px){
-  .tv-wrap{width:160px;height:90px;}
-}
+@media(max-width:600px){.tv-wrap{width:160px;height:90px;}}
 
 /* === Cursor + Stars === */
 .cursor{position:fixed;left:0;top:0;width:160px;height:160px;border-radius:50%;pointer-events:none;z-index:100;mix-blend-mode:screen;
@@ -163,6 +159,7 @@ mix-blend-mode:overlay;opacity:.9;animation:noiseFloater .06s steps(2) infinite;
 <audio id="player" preload="auto"></audio>
 
 <script>
+/* === AUDIO PLAYLIST === */
 const audioFiles = [
   "./BM AM & PM.m4a",
   "./Biebs in the Glue .m4a",
@@ -170,157 +167,313 @@ const audioFiles = [
   "./FB Remix.m4a",
   "./Frtruck.m4a"
 ];
+
+/* === VIDEO PLAYLIST === */
 const videoFiles = [
   "./IMG_3838.MOV",
   "./MoshUp_0021~2.mp4",
   "./My Movie 51~2 (2).mp4",
-  "./My Movie 54.mov"
+  "./My Movie 54.mov",
+  "./My Movie 55.mov",
+  "./IMG_3982.mp4",
+  "./PXL_20251026_173711995~2.mp4",
+  "./PXL_20250518_024552089~3.mp4",
+  "./IMG_0447~2.mp4",
+  "./PXL_20250507_232651233~2.mp4",
+  "./IMG_3019.MOV"
 ];
 
 const player = document.getElementById("player");
 const tv = document.getElementById("tv");
 const tvWrap = document.getElementById("tvWrap");
 
-let currentTrack = 0, currentChannel = 0, autoplayAttempted = false;
+let currentTrack = 0;
+let currentChannel = 0;
+let autoplayAttempted = false;
 
-function setTrack(index){
+/* === AUDIO CONTROL === */
+function setTrack(index) {
   currentTrack = (index + audioFiles.length) % audioFiles.length;
   player.src = audioFiles[currentTrack];
   player.load();
-  player.play().then(()=>{
+  player.play().then(() => {
     player.volume = 1.0;
     window.removeEventListener("touchstart", startOnGesture);
     window.removeEventListener("click", startOnGesture);
-  }).catch(()=>{
-    window.addEventListener("touchstart", startOnGesture, {once:true});
-    window.addEventListener("click", startOnGesture, {once:true});
+  }).catch((err) => {
+    console.warn("Autoplay blocked — will start on first tap.", err);
+    window.addEventListener("touchstart", startOnGesture, { once: true });
+    window.addEventListener("click", startOnGesture, { once: true });
   });
 }
-function startOnGesture(){
+
+/* === USER GESTURE FALLBACK === */
+function startOnGesture() {
   player.play().catch(()=>{});
   tv.play().catch(()=>{});
 }
-player.addEventListener("ended", ()=> setTrack(currentTrack + 1));
-function tryAutoplay(){
-  if(autoplayAttempted) return;
+
+/* === ADVANCE AUDIO TRACK === */
+player.addEventListener("ended", () => setTrack(currentTrack + 1));
+
+/* === INITIAL AUTOPLAY === */
+function tryAutoplay() {
+  if (autoplayAttempted) return;
   autoplayAttempted = true;
-  setTrack(0);
+  setTrack(0); // Start with BM AM & PM
   setChannel(0);
 }
-function setChannel(index){
+
+/* === TV CHANNEL LOGIC === */
+function setChannel(index) {
   currentChannel = (index + videoFiles.length) % videoFiles.length;
   tv.pause();
   tv.src = videoFiles[currentChannel];
   tv.load();
   tv.play().catch(()=>{});
 }
-tvWrap.addEventListener("click", ()=>{
+
+/* === CHANGE CHANNEL ON CLICK === */
+tvWrap.addEventListener("click", () => {
   tvWrap.classList.add("glow");
-  setTimeout(()=> tvWrap.classList.remove("glow"), 420);
+  setTimeout(() => tvWrap.classList.remove("glow"), 420);
   setChannel(currentChannel + 1);
 });
-tvWrap.tabIndex = 0;
-tvWrap.addEventListener("keydown", e=>{
-  if(e.key==="Enter"||e.key===" "){e.preventDefault();tvWrap.click();}
-});
-window.addEventListener("load", ()=> setTimeout(tryAutoplay, 200));
-document.addEventListener("visibilitychange", ()=>{if(!document.hidden){player.play().catch(()=>{});tv.play().catch(()=>{});}});
-tvWrap.addEventListener("contextmenu", e=>e.preventDefault());
 
-/* ---- Floating TV drift (starts later) ---- */
-function startTvDrift(){
-  if(tvWrap.dataset.drifting==="true") return;
-  tvWrap.dataset.drifting="true";
-  let x=(window.innerWidth-tvWrap.offsetWidth)/2,
-      y=30,
-      vx=(Math.random()<0.5?-1:1)*0.25,
-      vy=(Math.random()<0.5?-1:1)*0.18,
-      padding=8;
-  tvWrap.style.left=`${x}px`; tvWrap.style.top=`${y}px`;
-  tvWrap.style.transform="translate(0,0)";
-  tvWrap.style.position="fixed";
-  let last=performance.now();
-  function step(now){
-    const dt=Math.min(40,now-last)/16.666; last=now;
-    const w=tvWrap.offsetWidth, h=tvWrap.offsetHeight;
-    x+=vx*dt; y+=vy*dt;
-    if(x<=padding||x+w>=window.innerWidth-padding){vx*=-1;tvWrap.classList.add("glow");setTimeout(()=>tvWrap.classList.remove("glow"),400);}
-    if(y<=padding||y+h>=window.innerHeight-padding){vy*=-1;tvWrap.classList.add("glow");setTimeout(()=>tvWrap.classList.remove("glow"),400);}
-    tvWrap.style.left=`${x}px`; tvWrap.style.top=`${y}px`;
+/* === KEYBOARD SUPPORT === */
+tvWrap.tabIndex = 0;
+tvWrap.addEventListener("keydown", (e) => {
+  if (e.key === "Enter" || e.key === " ") {
+    e.preventDefault();
+    tvWrap.click();
+  }
+});
+
+/* === AUTOPLAY ON LOAD === */
+window.addEventListener("load", () => setTimeout(tryAutoplay, 200));
+
+/* === RESUME PLAYBACK WHEN RETURNING TO TAB === */
+document.addEventListener("visibilitychange", () => {
+  if (!document.hidden) {
+    player.play().catch(()=>{});
+    tv.play().catch(()=>{});
+  }
+});
+
+/* === DISABLE CONTEXT MENU ON MOBILE === */
+tvWrap.addEventListener("contextmenu", (e) => e.preventDefault());
+
+/* === FLOATING TV DRIFT === */
+function startTvDrift() {
+  if (tvWrap.dataset.drifting === "true") return;
+  tvWrap.dataset.drifting = "true";
+
+  let x = (window.innerWidth - tvWrap.offsetWidth) / 2;
+  let y = 30;
+  let vx = (Math.random() < 0.5 ? -1 : 1) * 0.25;
+  let vy = (Math.random() < 0.5 ? -1 : 1) * 0.18;
+  const padding = 8;
+
+  tvWrap.style.left = `${x}px`;
+  tvWrap.style.top = `${y}px`;
+  tvWrap.style.transform = "translate(0,0)";
+  tvWrap.style.position = "fixed";
+
+  let lastTime = performance.now();
+
+  function step(now) {
+    const dt = Math.min(40, now - lastTime) / 16.666;
+    lastTime = now;
+
+    const w = tvWrap.offsetWidth;
+    const h = tvWrap.offsetHeight;
+
+    x += vx * dt;
+    y += vy * dt;
+
+    if (x <= padding || x + w >= window.innerWidth - padding) {
+      vx *= -1;
+      tvWrap.classList.add("glow");
+      setTimeout(() => tvWrap.classList.remove("glow"), 420);
+    }
+
+    if (y <= padding || y + h >= window.innerHeight - padding) {
+      vy *= -1;
+      tvWrap.classList.add("glow");
+      setTimeout(() => tvWrap.classList.remove("glow"), 420);
+    }
+
+    tvWrap.style.left = `${x}px`;
+    tvWrap.style.top = `${y}px`;
+
     requestAnimationFrame(step);
   }
+
   requestAnimationFrame(step);
-  window.addEventListener("resize",()=>{
-    x=Math.min(Math.max(x,padding),window.innerWidth-tvWrap.offsetWidth-padding);
-    y=Math.min(Math.max(y,padding),window.innerHeight-tvWrap.offsetHeight-padding);
+
+  window.addEventListener("resize", () => {
+    x = Math.min(Math.max(x, padding), window.innerWidth - tvWrap.offsetWidth - padding);
+    y = Math.min(Math.max(y, padding), window.innerHeight - tvWrap.offsetHeight - padding);
   });
 }
-window.startTvDrift=startTvDrift;
+
+window.startTvDrift = startTvDrift;
 </script>
 <!-- CHUNK 2 END -->
 <!-- CHUNK 3 START -->
 <script>
-const starContainer=document.getElementById("stars");
-const numStars=120;
-for(let i=0;i<numStars;i++){
-  const s=document.createElement("div");
-  s.className="star"+(Math.random()<0.4?" tiny":"");
-  s.style.left=Math.random()*100+"%";
-  s.style.top=Math.random()*100+"%";
-  s.style.animation=`twinkle${i} ${2+Math.random()*4}s ease-in-out infinite`;
-  const kf=`@keyframes twinkle${i}{0%,100%{opacity:${0.4+Math.random()*0.4}}50%{opacity:${0.8+Math.random()*0.2}}}`;
-  const st=document.createElement("style");st.textContent=kf;document.head.appendChild(st);
+/* ===== STARS + CURSOR + FLASH EFFECTS ===== */
+
+// --- Twinkling stars ---
+const starContainer = document.getElementById("stars");
+const numStars = 120;
+for (let i = 0; i < numStars; i++) {
+  const s = document.createElement("div");
+  s.className = "star" + (Math.random() < 0.4 ? " tiny" : "");
+  s.style.left = Math.random() * 100 + "%";
+  s.style.top = Math.random() * 100 + "%";
+  s.style.animation = `twinkle${i} ${2 + Math.random() * 4}s ease-in-out infinite`;
+  const keyframes = `
+    @keyframes twinkle${i}{
+      0%,100%{opacity:${0.4 + Math.random() * 0.4}}
+      50%{opacity:${0.8 + Math.random() * 0.2}}
+    }`;
+  const styleSheet = document.createElement("style");
+  styleSheet.textContent = keyframes;
+  document.head.appendChild(styleSheet);
   starContainer.appendChild(s);
 }
-const cursor=document.getElementById("cursor");
-document.addEventListener("mousemove",e=>{cursor.style.left=e.clientX+"px";cursor.style.top=e.clientY+"px";});
-document.addEventListener("mousedown",()=>cursor.style.transform="translate(-50%,-50%) scale(1.2)");
-document.addEventListener("mouseup",()=>cursor.style.transform="translate(-50%,-50%) scale(0.8)");
-function flashOverlay(cls){
-  const f=document.createElement("div");f.className=`flash-overlay ${cls}`;document.body.appendChild(f);
-  requestAnimationFrame(()=>{f.style.opacity=0.6;});setTimeout(()=>f.style.opacity=0,100);setTimeout(()=>f.remove(),200);
+
+// --- Cursor follow effect ---
+const cursor = document.getElementById("cursor");
+document.addEventListener("mousemove", e => {
+  cursor.style.left = e.clientX + "px";
+  cursor.style.top = e.clientY + "px";
+});
+document.addEventListener("mousedown", () =>
+  cursor.style.transform = "translate(-50%,-50%) scale(1.2)"
+);
+document.addEventListener("mouseup", () =>
+  cursor.style.transform = "translate(-50%,-50%) scale(0.8)"
+);
+
+// --- CRT flash overlay when clicking P or G ---
+function flashOverlay(colorClass){
+  const flash = document.createElement("div");
+  flash.className = `flash-overlay ${colorClass}`;
+  document.body.appendChild(flash);
+  requestAnimationFrame(()=>{flash.style.opacity = 0.6;});
+  setTimeout(()=>flash.style.opacity = 0, 100);
+  setTimeout(()=>flash.remove(), 200);
 }
-document.getElementById("paintBtn").addEventListener("click",()=>flashOverlay("flash-blue"));
-document.getElementById("glueBtn").addEventListener("click",()=>flashOverlay("flash-red"));
+
+document.getElementById("paintBtn").addEventListener("click", ()=>flashOverlay("flash-blue"));
+document.getElementById("glueBtn").addEventListener("click", ()=>flashOverlay("flash-red"));
 </script>
+
 <style>
-.flash-overlay{position:fixed;inset:0;z-index:90;pointer-events:none;mix-blend-mode:screen;opacity:0;transition:opacity .12s linear;}
-.flash-blue{background:linear-gradient(180deg,rgba(30,144,255,0.25),rgba(10,30,255,0.15));}
-.flash-red{background:linear-gradient(180deg,rgba(255,40,40,0.25),rgba(255,10,10,0.15));}
+.flash-overlay{
+  position:fixed;inset:0;z-index:90;pointer-events:none;
+  mix-blend-mode:screen;opacity:0;transition:opacity .12s linear;
+}
+.flash-blue{
+  background:linear-gradient(180deg,rgba(30,144,255,0.25),rgba(10,30,255,0.15));
+}
+.flash-red{
+  background:linear-gradient(180deg,rgba(255,40,40,0.25),rgba(255,10,10,0.15));
+}
 </style>
 <!-- CHUNK 3 END -->
 <!-- CHUNK 4 START -->
 <style>
-#bootScreen{position:fixed;inset:0;background:#000;color:#00ff66;font-family:'Courier New',monospace;font-size:1.4rem;letter-spacing:1px;
-display:flex;align-items:center;justify-content:center;z-index:999;overflow:hidden;}
-#bootText{white-space:pre;overflow:hidden;border-right:2px solid #00ff66;
-animation:typing 2s steps(20,end),blinkCursor .5s step-end infinite alternate;}
-@keyframes typing{from{width:0}to{width:18ch}}
-@keyframes blinkCursor{from{border-color:transparent}to{border-color:#00ff66}}
-.fadeOut{animation:fadeOut 1s ease forwards,flicker .25s steps(2) 3;}
-@keyframes fadeOut{0%{opacity:1;filter:none;}40%{filter:contrast(120%) brightness(140%) saturate(120%);}
-70%{filter:contrast(80%) brightness(80%) saturate(90%);}100%{opacity:0;visibility:hidden;}}
-@keyframes flicker{0%,100%{opacity:1;}50%{opacity:.6;}}
-#bootScreen::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(to bottom,
-rgba(0,255,102,0.05)0,rgba(0,255,102,0.05)1px,transparent 2px,transparent 4px);
-pointer-events:none;mix-blend-mode:overlay;opacity:.3;animation:scanMove 6s linear infinite;}
-@keyframes scanMove{from{background-position:0 0;}to{background-position:0 8px;}}
+/* ===== Boot Screen Styling ===== */
+#bootScreen {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  color: #00ff66;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 1.4rem;
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  overflow: hidden;
+}
+#bootText {
+  white-space: pre;
+  overflow: hidden;
+  border-right: 2px solid #00ff66;
+  animation: typing 2s steps(20,end), blinkCursor .5s step-end infinite alternate;
+}
+@keyframes typing { from{width:0} to{width:18ch} }
+@keyframes blinkCursor { from{border-color:transparent} to{border-color:#00ff66} }
+
+/* Fade-out with CRT flicker and scanlines */
+.fadeOut {
+  animation: fadeOut 1s ease forwards, flicker .25s steps(2) 3;
+}
+@keyframes fadeOut {
+  0% {opacity:1;filter:none;}
+  40% {filter:contrast(120%) brightness(140%) saturate(120%);}
+  70% {filter:contrast(80%) brightness(80%) saturate(90%);}
+  100% {opacity:0;visibility:hidden;}
+}
+@keyframes flicker {
+  0%,100%{opacity:1;}
+  50%{opacity:.6;}
+}
+/* Scanline overlay */
+#bootScreen::before {
+  content:"";
+  position:absolute;
+  inset:0;
+  background:repeating-linear-gradient(
+    to bottom,
+    rgba(0,255,102,0.05) 0px,
+    rgba(0,255,102,0.05) 1px,
+    transparent 2px,
+    transparent 4px
+  );
+  pointer-events:none;
+  mix-blend-mode:overlay;
+  opacity:.3;
+  animation:scanMove 6s linear infinite;
+}
+@keyframes scanMove {
+  from{background-position:0 0;}
+  to{background-position:0 8px;}
+}
 </style>
-<div id="bootScreen"><div id="bootText">&gt; bootinup-bootsup_</div></div>
+
+<!-- Boot Intro -->
+<div id="bootScreen">
+  <div id="bootText">&gt; bootinup-bootsup_</div>
+</div>
+
 <script>
-window.addEventListener("load",()=>{
-  const boot=document.getElementById("bootScreen");
-  setTimeout(()=>{
-    boot.classList.add("fadeOut");
-    setTimeout(()=>{if(typeof startTvDrift==="function") startTvDrift();},900);
-  },2600);
+/* ===== Boot Sequence ===== */
+window.addEventListener("load", () => {
+  const bootScreen = document.getElementById("bootScreen");
+  setTimeout(() => {
+    bootScreen.classList.add("fadeOut");
+    setTimeout(() => {
+      if (typeof startTvDrift === "function") startTvDrift();
+    }, 900);
+  }, 2600); // visible for ~2.6s
 });
 </script>
 <!-- CHUNK 4 END -->
 <!-- CHUNK 5 START -->
 <script>
-window.triggerFlash=function(color="blue"){flashOverlay(color==="red"?"flash-red":"flash-blue");};
+/* ===== Optional Helper ===== */
+// You can trigger flashes manually via console: triggerFlash('red') or triggerFlash('blue')
+window.triggerFlash = function(color="blue"){
+  flashOverlay(color==="red" ? "flash-red" : "flash-blue");
+};
 </script>
+
 </body>
 </html>
 <!-- CHUNK 5 END -->
